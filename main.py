@@ -1,3 +1,4 @@
+from requests import Response
 from imports import *
 
 def main():
@@ -28,6 +29,10 @@ def main():
 
         URL = sys.argv[1]
 
+        HEADERS = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        }
+
         if not re.match(regex, (URL)) is not None:
             print("[-] Invalid URL")
             sys.exit()
@@ -41,7 +46,7 @@ def main():
 
         separator()
         print("[+] Requesting " + URL + " ...")
-        GET = requests.get(URL, timeout=10, verify=SSL)
+        GET = requests.get(URL, timeout=10, verify=SSL, headers=HEADERS)
         GET.raise_for_status()  
 
         ENCODING = GET.encoding
@@ -51,13 +56,11 @@ def main():
         HEADERS = GET.headers
         REDIRECTED = GET.is_redirect
         REASON = GET.reason
+        STATUS_CODE = GET.status_code
 
-        status_code = GET.status_code
-        if status_code != 200:
-            print("[-] : " + status_code)
-        else:
+        if Response:
             print("[+] Response took " + str(TIME) + " seconds")
-            print("[+] Response status code: 200")
+            print("[+] Response status code: " + str(STATUS_CODE))
             print("[+] Status code reason: " + str(REASON)) 
             print("[+] Encoding: " + str(ENCODING))
             print("[+] Cookies: " + str(COOKIES))
@@ -93,15 +96,17 @@ def main():
 
             separator()
             print("[+] Request for " + URL + " finished\n")
+        else:
+            print("[-] Error occured. " + str(STATUS_CODE))
+            sys.exit()
         
     except ConnectionError:
-        print ("[-] Connection error, host might be down")
+        print ("[-] A connection error occured. Host might be down.")
     except Timeout:
-        print ("[-] Host is taking too long to respond")
+        print ("[-] The request timed out.")
     except HTTPError:
-        print ("[-] HTTPError: " + status_code)
+        print ("[-] An HTTP error occured. " + status_code)
 
 if __name__ == "__main__":
         main()
         
-
