@@ -13,6 +13,14 @@ def main():
     else:
         PORT = sys.argv[2]
 
+    regex = re.compile(
+        r'^(?:http|ftp)s?://' # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
+        r'localhost|' #localhost...
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+        r'(?::\d+)?' # optional port
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    
     def separator():
         print(" -" * len(URL))
 
@@ -20,8 +28,8 @@ def main():
 
         URL = sys.argv[1]
 
-        if 'https://' or 'http://' not in URL:
-            print("[-] Must be full URL, example: https://domain.com/\n")
+        if not re.match(regex, (URL)) is not None:
+            print("[-] Invalid URL")
             sys.exit()
 
         if 'https' in URL:

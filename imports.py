@@ -1,6 +1,8 @@
 import sys
 import requests
 import os.path
+import re
+
 from os import path
 from requests.exceptions import Timeout
 from requests.exceptions import ConnectionError
