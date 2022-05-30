@@ -1,4 +1,3 @@
-from requests import Response
 from imports import *
 
 def main():
@@ -6,7 +5,7 @@ def main():
     ARGS = len(sys.argv)
 
     if ARGS < 2: 
-        print("\n[-] Usage: python scan.py <http(s)://domain.com/> <port>\n[i] Port defaults to 80\n[i] SSL is automatically set \n[+] Must include full URL")
+        print("\n[-] Usage: python main.py <http(s)://domain.com/> <port>\n[i] Port defaults to 80\n[i] SSL is automatically set \n[+] Must include full URL")
         sys.exit()
     elif ARGS < 3:
         PORT = str('80')
@@ -29,10 +28,6 @@ def main():
 
         URL = sys.argv[1]
 
-        HEADERS = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
-        }
-
         if not re.match(regex, (URL)) is not None:
             print("[-] Invalid URL")
             sys.exit()
@@ -44,8 +39,14 @@ def main():
             SSL = False
             print("[+] SSL set to False")
 
+        HEADERS = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36'
+        }
+
         separator()
+
         print("[+] Requesting " + URL + " ...")
+
         GET = requests.get(URL, timeout=10, verify=SSL, headers=HEADERS)
         GET.raise_for_status()  
 
@@ -105,7 +106,7 @@ def main():
     except Timeout:
         print ("[-] The request timed out.")
     except HTTPError:
-        print ("[-] An HTTP error occured. " + status_code)
+        print ("[-] An HTTP error occured. " + STATUS_CODE)
 
 if __name__ == "__main__":
         main()
