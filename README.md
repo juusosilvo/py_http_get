@@ -17,7 +17,7 @@
 <h3 align="center">Python requests.py GET demo</h3>
 
   <p align="center">
-    Output response from a website using Python with a simple CLI. Headers and content are saved into separate files.
+    Output response from a web server using Python with a simple CLI. Headers and content are saved into separate files.
     <br />
   </p>
 </div>
