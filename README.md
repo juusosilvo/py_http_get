@@ -49,4 +49,3 @@
    sudo python3 main.py https://host.com/ <PORT>
   ```
   >Administrator permissions needed in order to create  and write to files.
-<p align="right">(<a href="#top">back to top</a>)</p>
